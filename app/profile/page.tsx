@@ -8,13 +8,13 @@ import Link from 'next/link';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const Profile = () => {
-  const [user, setUser] = useLocalStorage('user', undefined);
+  const [user, setUser] = useLocalStorage('user', "undefined");
   const signed = useLocalStorage('signed', 'false')[0];
   
   useEffect(() => {
     if (signed == 'true') {
       getUser().then(res => {
-        setUser(res.user)
+        setUser(res)
       })
     }
   },[])
