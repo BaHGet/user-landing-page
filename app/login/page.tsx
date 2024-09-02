@@ -26,11 +26,10 @@ const Login = () => {
     })
     const data = await res.json()
     if(data.authentication) {
-        localStorage.setItem('user', JSON.stringify({
-          email: email
-        }))
+        localStorage.setItem('signed', 'true')
         return router.push('/profile')
     }else{
+      localStorage.setItem('signed', 'false')
       setError(data.error)
     }
   }
