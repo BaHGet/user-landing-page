@@ -3,7 +3,15 @@ import { NextRequest, NextResponse } from 'next/server';
 export const GET = async(
     req: NextRequest,
 ) => {
-    return NextResponse.json({ message: 'John Doe' })
+    const user = await fetch('https://dummyjson.com/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+            username: 'emilys',
+            password: 'emilyspass',
+            })
+        }).then(res => res.json()).catch(err => console.log(err))
+    return NextResponse.json({ user: user })
 }
 
 export const POST = async(
