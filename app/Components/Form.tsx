@@ -31,6 +31,9 @@ const Form = ({ handleLogin, error, setError } : Props) => {
 
     const handleLogout = (key:string) => {
         localStorage.removeItem(key)
+        localStorage.removeItem('token')
+        localStorage.removeItem('refreshToken')
+        localStorage.setItem('signed', 'false')
         window.location.reload()
     }
 
