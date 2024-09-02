@@ -8,18 +8,18 @@ import Link from 'next/link';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const Profile = () => {
-  const [user, setUser] = useLocalStorage('user')
-  const [signed, setSigned] = useLocalStorage('signed', 'false');
+  const [user, setUser] = useLocalStorage('user', undefined);
+  const signed = useLocalStorage('signed', 'false')[0];
   
   useEffect(() => {
-    if (signed == true) {
+    if (signed == 'true') {
       getUser().then(res => {
         setUser(res.user)
       })
     }
   },[])
 
-  if(signed == 'false') {
+  if(signed == 'false' || signed=='') {
       return (
           <div className="w-1/3 md:w-5/6 p-5 my-56 flex flex-col items-center">
               <h1 className="text-3xl font-bold">You are not logged in</h1>

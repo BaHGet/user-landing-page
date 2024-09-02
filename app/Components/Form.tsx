@@ -16,10 +16,10 @@ const Form = ({ handleLogin, error, setError } : Props) => {
     const [hidden, setHidden] = useState<boolean>(true)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [user, setUser] = useLocalStorage('user')
+    const setUser = useLocalStorage('user')[1]
     const [signed, setSigned] = useLocalStorage('signed')
-    const [token, setToken] = useLocalStorage('token')
-    const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken')
+    const setToken = useLocalStorage('token')[1]
+    const setRefreshToken = useLocalStorage('refreshToken')[1]
 
     const handleEmailChange = (e: any) => {
         setEmail(e.target.value)
@@ -42,7 +42,7 @@ const Form = ({ handleLogin, error, setError } : Props) => {
     }
 
     return (
-        user ? 
+        signed === 'true' ? 
             <>
                 <h1 className="text-3xl my-5">You are already logged in</h1>
                 <div className='flex flex-row w-60 p-4 justify-between'>

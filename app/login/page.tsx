@@ -12,27 +12,38 @@ const Login = () => {
   const [signed, setSigned] = useLocalStorage('signed', 'false')
   const router = useRouter()
 
+  const mimicApiCall = (email: any, password: any) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email === 'test@task.com' && password === '12345678') {
+          resolve({ authentication: true });
+        } else if (email !== 'test@task.com') {
+          reject({ authentication: false, error: 'User Not Found' });
+        } else if (password !== '12345678') {
+          reject({ authentication: false, error: 'Wrong Password' });
+        } else {
+          reject({ authentication: false, error: 'Internal Error' });
+        }
+      }, 1000)
+    })
+  }
+  
   const handleLogin = async(formData: FormData) => {
     const email = formData.get('email')
     const password = formData.get('password')
+
     if(!email || !password) return setError('All fields are required')
-    const res = await fetch('http://localhost:3000/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password
-      })
-    })
-    const data = await res.json()
-    if(data.authentication) {
-      setSigned('true')
-      return router.push('/profile')
-    }else{
+
+    try {
+      const data: any = await mimicApiCall(email, password)
+      
+      if(await data?.authentication) {
+        setSigned('true')
+        return router.push('/profile')
+      }
+    } catch (error : any) {
       setSigned('false')
-      setError(data.error)
+      setError(error.error)
     }
   }
 
