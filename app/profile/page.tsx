@@ -5,21 +5,21 @@ import ProfileCard from './ProfileCard'
 import { getUser, User } from '../utilities/getUser';
 import SkeletonCard from './SkeletonCard';
 import Link from 'next/link';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 const Profile = () => {
-  const [user, setUser] = useState<User | undefined>(undefined);
-  const [signed, setSigned] = useState<string | null>(null);
-
+  const [user, setUser] = useLocalStorage('user')
+  const [signed, setSigned] = useLocalStorage('signed', 'false');
+  
   useEffect(() => {
-    setSigned(localStorage.getItem('signed'))
-    if (signed === 'true') {
+    if (signed == true) {
       getUser().then(res => {
         setUser(res.user)
       })
     }
-  },[signed])
+  },[])
 
-  if(signed === 'false') {
+  if(signed == 'false') {
       return (
           <div className="w-1/3 md:w-5/6 p-5 my-56 flex flex-col items-center">
               <h1 className="text-3xl font-bold">You are not logged in</h1>

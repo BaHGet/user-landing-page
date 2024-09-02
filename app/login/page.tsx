@@ -1,13 +1,15 @@
-'use client'
+'use client';
 
 import Image from "next/image"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import Form from "../Components/Form";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const Login = () => {
   const [error, setError] = useState('')
+  const [signed, setSigned] = useLocalStorage('signed', 'false')
   const router = useRouter()
 
   const handleLogin = async(formData: FormData) => {
@@ -26,10 +28,10 @@ const Login = () => {
     })
     const data = await res.json()
     if(data.authentication) {
-        localStorage.setItem('signed', 'true')
-        return router.push('/profile')
+      setSigned('true')
+      return router.push('/profile')
     }else{
-      localStorage.setItem('signed', 'false')
+      setSigned('false')
       setError(data.error)
     }
   }

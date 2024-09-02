@@ -18,21 +18,21 @@ export const getUser = async () => {
     }).then(res => res.json()).catch(err => console.log(err))
 
     user = res.user
-    localStorage.setItem('token', JSON.stringify(user.token))
-    localStorage.setItem('refreshToken', JSON.stringify(user.refreshToken))
+    window.localStorage.setItem('token', JSON.stringify(user.token))
+    window.localStorage.setItem('refreshToken', JSON.stringify(user.refreshToken))
     delete user.token
     delete user.refreshToken
-    localStorage.setItem('user', JSON.stringify(user))
+    window.localStorage.setItem('user', JSON.stringify(user))
     return res
     
 }
 
 export const getToken = () => {
-    const token = localStorage.getItem('token')
+    const token = window.localStorage.getItem('token')
     return token
 }
 
 export const getRefreshToken = () => {
-    const refreshToken = localStorage.getItem('refreshToken')
+    const refreshToken = window.localStorage.getItem('refreshToken')
     return refreshToken
 }

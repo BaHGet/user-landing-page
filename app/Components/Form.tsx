@@ -16,8 +16,10 @@ const Form = ({ handleLogin, error, setError } : Props) => {
     const [hidden, setHidden] = useState<boolean>(true)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [user] = useLocalStorage('user')
-
+    const [user, setUser] = useLocalStorage('user')
+    const [signed, setSigned] = useLocalStorage('signed')
+    const [token, setToken] = useLocalStorage('token')
+    const [refreshToken, setRefreshToken] = useLocalStorage('refreshToken')
 
     const handleEmailChange = (e: any) => {
         setEmail(e.target.value)
@@ -29,12 +31,14 @@ const Form = ({ handleLogin, error, setError } : Props) => {
         setError('')
     }
 
-    const handleLogout = (key:string) => {
-        localStorage.removeItem(key)
-        localStorage.removeItem('token')
-        localStorage.removeItem('refreshToken')
-        localStorage.setItem('signed', 'false')
-        window.location.reload()
+    const handleLogout = () => {
+        setUser(undefined)
+        setSigned('')
+        setToken('')
+        setRefreshToken('')
+        if(typeof window != 'undefined') {
+            window.location.reload()
+        }
     }
 
     return (
@@ -43,7 +47,7 @@ const Form = ({ handleLogin, error, setError } : Props) => {
                 <h1 className="text-3xl my-5">You are already logged in</h1>
                 <div className='flex flex-row w-60 p-4 justify-between'>
                     <Link href="/profile" className='text-gray-300 bg-slate-700 rounded-lg p-2'>View Profile</Link>
-                    <button className='text-gray-300 bg-slate-700 rounded-lg p-2' onClick={() => handleLogout('user')}>Logout</button>
+                    <button className='text-gray-300 bg-slate-700 rounded-lg p-2' onClick={() => handleLogout()}>Logout</button>
                 </div>
             </> 
         : 
